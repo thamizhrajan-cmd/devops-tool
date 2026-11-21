@@ -1,0 +1,30 @@
+name: My First CI Workflow
+ 
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+ 
+jobs:
+  check-project:
+    runs-on: windows-latest
+ 
+    steps:
+      - name: Get source code
+        uses: actions/checkout@v4
+ 
+      - name: Check project files
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "index.html")) {
+            Write-Error "index.html does not exist!"
+            exit 1
+          }
+ 
+          if (-not (Test-Path "README.md")) {
+            Write-Error "README.md does not exist!"
+            exit 1
+          }
+ 
+          Write-Host "Project files checked successfully!"
